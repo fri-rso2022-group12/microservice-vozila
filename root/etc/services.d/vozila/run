@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ -n "$SKIP_APP" ]; then
+	exit 0
+fi
+
+exec s6-setuidgid $CONTAINER_USER node /app/main.js 
