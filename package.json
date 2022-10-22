@@ -25,6 +25,8 @@
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "compression": "^1.7.4",
+    "helmet": "^6.0.0",
     "joi": "^17.6.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
