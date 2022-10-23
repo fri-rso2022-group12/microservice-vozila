@@ -8,4 +8,18 @@ export const ConfigSchema: Joi.ObjectSchema = Joi.object().keys({
 
 	CONFIG: Joi.string(),
 	IGNORE_CONFIG: Joi.boolean(),
+
+	/**
+	 * TypeORM
+	 * @see https://typeorm.io/#/using-ormconfig/using-environment-variables
+	 * @see https://typeorm.io/#/connection-options/
+	 */
+	 TYPEORM_CONNECTION: Joi.string().default('mariadb'),
+	 TYPEORM_HOST: Joi.string().default('localhost'),
+	 TYPEORM_USERNAME: Joi.string().default('root'),
+	 TYPEORM_PASSWORD: Joi.string(),
+	 TYPEORM_DATABASE: Joi.string().default('rso-ms-vozila'),
+	 TYPEORM_PORT: Joi.number().default(3306),
+	 TYPEORM_SYNCHRONIZE: Joi.boolean().default(true),
+	 TYPEORM_LOGGING: Joi.boolean().default(false),
 });

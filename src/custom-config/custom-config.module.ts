@@ -2,6 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { ConfigSchema } from './config.schema';
+import { DatabaseConfigService } from './database-config.service';
 
 @Global()
 @Module({
@@ -21,6 +22,13 @@ import { ConfigSchema } from './config.schema';
       },
       validationSchema: ConfigSchema,
     }),
+  ],
+  providers: [
+    DatabaseConfigService,
+  ],
+  exports: [
+    ConfigModule,
+    DatabaseConfigService,
   ]
 })
 export class CustomConfigModule {}
