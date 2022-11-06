@@ -20,6 +20,6 @@ export const ConfigSchema: Joi.ObjectSchema = Joi.object().keys({
 	 TYPEORM_PASSWORD: Joi.string(),
 	 TYPEORM_DATABASE: Joi.string().default('rso-ms-vozila'),
 	 TYPEORM_PORT: Joi.number().default(3306),
-	 TYPEORM_SYNCHRONIZE: Joi.boolean().default(true),
+	 TYPEORM_SYNCHRONIZE: Joi.boolean().default(false),
 	 TYPEORM_LOGGING: Joi.boolean().default(false),
 });
