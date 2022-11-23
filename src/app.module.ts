@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CustomConfigModule } from './custom-config/custom-config.module';
 import { DatabaseConfigService } from './custom-config/database-config.service';
+import { VoziloModule } from './vozilo/vozilo.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { DatabaseConfigService } from './custom-config/database-config.service';
       imports: [CustomConfigModule],
       useExisting: DatabaseConfigService,
     }),
+    VoziloModule,
   ],
   controllers: [AppController],
   providers: [AppService],

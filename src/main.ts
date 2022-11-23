@@ -40,7 +40,7 @@ async function bootstrap() {
       .setTitle('Tip vozil')
       .setDescription('Tip vozil API description')
       .setVersion(getAppVersion())
-      // TODO: .addTag('tag', 'Title')
+      .addTag('vozilo', 'Vozilo')
       .build();
     const document = SwaggerModule.createDocument(app, docConfig);
     SwaggerModule.setup(docPath, app, document);
