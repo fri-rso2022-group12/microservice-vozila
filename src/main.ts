@@ -39,8 +39,8 @@ async function bootstrap() {
   // API documentation
   if (enableDocs) {
     const docConfig = new DocumentBuilder()
-      .setTitle('Tip vozil')
-      .setDescription('Tip vozil API description')
+      .setTitle('Vozilo')
+      .setDescription('Vozilo API description')
       .setVersion(getAppVersion())
       .addTag('vozilo', 'Vozilo')
       .build();

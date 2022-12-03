@@ -4,3 +4,4 @@
 dist
 Dockerfile
 node_modules*
+k8s/secrets.yaml
