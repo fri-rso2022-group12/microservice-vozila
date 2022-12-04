@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rso-microservice-vozila-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rso-microservice-vozila
+  template:
+    metadata:
+      labels:
+        app: rso-microservice-vozila
+    spec:
+      containers:
+        - image: slocomptech/rso-microservice-vozila:1.0.2
+          name: rso-microservice-vozila
+          env:
+            - name: DOCS
+              value: 'true'
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: '3000'
+            - name: TYPEORM_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: rso-secrets
+                  key: TYPEORM_HOST
+            - name: TYPEORM_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: rso-secrets
+                  key: TYPEORM_PORT
+            - name: TYPEORM_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: rso-secrets
+                  key: TYPEORM_USERNAME
+            - name: TYPEORM_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rso-secrets
+                  key: TYPEORM_PASSWORD
+          ports:
+            - containerPort: 3000
+              name: server
+              protocol: TCP
+          #livenessProbe:
+          #  httpGet:
+          #    path: /health/live
+          #    port: server
+          #  initialDelaySeconds: 20
+          #  periodSeconds: 3
+          #readinessProbe:
+          #    httpGet:
+          #      path: /health/ready
+          #      port: server
+          #    initialDelaySeconds: 20
+          #    periodSeconds: 3
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rso-microservice-vozila
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: rso-microservice-vozila
