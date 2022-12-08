@@ -42,6 +42,7 @@ async function bootstrap() {
       .setTitle('Vozilo')
       .setDescription('Vozilo API description')
       .setVersion(getAppVersion())
+      .addTag('health', 'Health')
       .addTag('vozilo', 'Vozilo')
       .build();
     const document = SwaggerModule.createDocument(app, docConfig);
