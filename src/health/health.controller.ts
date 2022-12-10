@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HealthCheck, HealthCheckService, HttpHealthIndicator, TypeOrmHealthIndicator } from '@nestjs/terminus';
 
@@ -6,9 +7,10 @@ import { HealthCheck, HealthCheckService, HttpHealthIndicator, TypeOrmHealthIndi
 @Controller('health')
 export class HealthController {
   constructor(
-    private health: HealthCheckService,
-    private db: TypeOrmHealthIndicator,
-    private http: HttpHealthIndicator,
+    private readonly configService: ConfigService,
+    private readonly health: HealthCheckService,
+    private readonly db: TypeOrmHealthIndicator,
+    private readonly http: HttpHealthIndicator,
   ) {}
 
   @Get('live')
@@ -24,6 +26,7 @@ export class HealthController {
   async ready() {
     return this.health.check([
       () => this.db.pingCheck('database'),
+      () => this.http.pingCheck('consul', `${this.configService.get<string>('CONSUL_PROTOCOL')}://${this.configService.get<string>('CONSUL_HOST')}:${this.configService.get<number>('CONSUL_PORT')}/v1/status/leader`, { timeout: 2000 }),
     ]);
   }
 }

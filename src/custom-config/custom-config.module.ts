@@ -2,6 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { ConfigSchema } from './config.schema';
+import { ConsulConfigService } from './consul-config.service';
 import { DatabaseConfigService } from './database-config.service';
 
 @Global()
@@ -24,10 +25,12 @@ import { DatabaseConfigService } from './database-config.service';
     }),
   ],
   providers: [
+    ConsulConfigService,
     DatabaseConfigService,
   ],
   exports: [
     ConfigModule,
+    ConsulConfigService,
     DatabaseConfigService,
   ]
 })

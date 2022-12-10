@@ -22,4 +22,14 @@ export const ConfigSchema: Joi.ObjectSchema = Joi.object().keys({
 	 TYPEORM_PORT: Joi.number().default(3306),
 	 TYPEORM_SYNCHRONIZE: Joi.boolean().default(false),
 	 TYPEORM_LOGGING: Joi.boolean().default(false),
+
+	/**
+	 * Consul
+	 * @see https://www.npmjs.com/package/nestjs-consul
+	 */
+	CONSUL_PROTOCOL: Joi.string().valid('http', 'https').default('http'),
+	CONSUL_PORT: Joi.number().min(1).default(8500),
+	CONSUL_HOST: Joi.string().default('localhost'),
+	CONSUL_TOKEN: Joi.string().default(''),
+	CONSUL_CRON: Joi.string().default('*/15 * * * *'),
 });
