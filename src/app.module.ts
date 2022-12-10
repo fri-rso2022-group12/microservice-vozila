@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,6 +17,7 @@ import { VoziloModule } from './vozilo/vozilo.module';
       useExisting: DatabaseConfigService,
     }),
     HealthModule,
+    PrometheusModule.register(),
     VoziloModule,
   ],
   controllers: [AppController],
