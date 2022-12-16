@@ -9,6 +9,8 @@ export const ConfigSchema: Joi.ObjectSchema = Joi.object().keys({
 	CONFIG: Joi.string(),
 	IGNORE_CONFIG: Joi.boolean(),
 
+	LOG_REQUESTS: Joi.boolean().default(false),
+
 	/**
 	 * TypeORM
 	 * @see https://typeorm.io/#/using-ormconfig/using-environment-variables
