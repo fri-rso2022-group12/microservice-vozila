@@ -38,9 +38,9 @@ export class AppController {
           timeout: 3000
         }).pipe(
           map(v => v.data),
-          tap(() => this.logger.warn('API: Success')),
+          tap(() => this.logger.verbose('API: Success')),
           catchError(error => {
-            this.logger.warn('API: Error');
+            this.logger.verbose('API: Error');
             return throwError(() => error);
           })
         ));
@@ -48,19 +48,19 @@ export class AppController {
       this.breaker = new CircuitBreaker(fn, options);
       this.breaker.fallback(() => { throw new ServiceUnavailableException('Test ABC'); });
       this.breaker.on('failure', () => {
-        this.logger.warn('CircuitBreaker fail');
+        this.logger.verbose('CircuitBreaker fail');
       });
       this.breaker.on('reject', () => {
-        this.logger.warn('CircuitBreaker reject');
+        this.logger.verbose('CircuitBreaker reject');
       });
       this.breaker.on('open', () => {
-        this.logger.warn('CircuitBreaker open');
+        this.logger.verbose('CircuitBreaker open');
       });
       this.breaker.on('close', () => {
-        this.logger.warn('CircuitBreaker close');
+        this.logger.verbose('CircuitBreaker close');
       });
       this.breaker.on('halfOpen', () => {
-        this.logger.warn('CircuitBreaker halfOpen');
+        this.logger.verbose('CircuitBreaker halfOpen');
       });
     }
     return await this.breaker.fire();
