@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Post } from '@nestjs/common';
+import { Controller, Get, HttpCode, Post, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HealthCheck, HealthCheckService, HttpHealthIndicator, TypeOrmHealthIndicator } from '@nestjs/terminus';
@@ -23,6 +23,8 @@ export class HealthController {
   @ApiOperation({ description: 'Is service alive' })
   @ApiOkResponse()
   async live() {
+    if (this.isHealthy)
+      throw new ServiceUnavailableException();
     return { status: 'ok' };
   }
 

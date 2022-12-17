@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,6 +11,7 @@ import { ConsulConfigService } from './custom-config/consul-config.service';
 import { CustomConfigModule } from './custom-config/custom-config.module';
 import { DatabaseConfigService } from './custom-config/database-config.service';
 import { HealthModule } from './health/health.module';
+import { HttpConfigService } from './custom-config/http-config.service';
 import { HttpLoggingInterceptor } from './http-logging.interceptor';
 import { MaintenanceMiddleware } from './maintenance.middleware';
 import { VoziloModule } from './vozilo/vozilo.module';
@@ -20,6 +22,10 @@ import { VoziloModule } from './vozilo/vozilo.module';
     TypeOrmModule.forRootAsync({
       imports: [CustomConfigModule],
       useExisting: DatabaseConfigService,
+    }),
+    HttpModule.registerAsync({
+      imports: [CustomConfigModule],
+      useExisting: HttpConfigService,
     }),
     HealthModule,
     PrometheusModule.register(),

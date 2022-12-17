@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ConfigSchema } from './config.schema';
 import { ConsulConfigService } from './consul-config.service';
 import { DatabaseConfigService } from './database-config.service';
+import { HttpConfigService } from './http-config.service';
 
 @Global()
 @Module({
@@ -27,11 +28,13 @@ import { DatabaseConfigService } from './database-config.service';
   providers: [
     ConsulConfigService,
     DatabaseConfigService,
+    HttpConfigService,
   ],
   exports: [
     ConfigModule,
     ConsulConfigService,
     DatabaseConfigService,
+    HttpConfigService,
   ]
 })
 export class CustomConfigModule {}

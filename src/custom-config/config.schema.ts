@@ -11,6 +11,10 @@ export const ConfigSchema: Joi.ObjectSchema = Joi.object().keys({
 
 	LOG_REQUESTS: Joi.boolean().default(false),
 
+	HTTP_TIMEOUT: Joi.number().min(0).default(5000),
+	
+	TIPVOZILAPI_URL: Joi.string().default('http://localhost:3000'),
+
 	/**
 	 * TypeORM
 	 * @see https://typeorm.io/#/using-ormconfig/using-environment-variables
