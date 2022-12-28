@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
+import { Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as compression from 'compression';
 import * as fs from 'fs';
@@ -26,7 +27,21 @@ async function bootstrap() {
   // Get configuration
   const docPath = configService.get<string>('DOC_PATH');
   const enableDocs = configService.get<boolean>('DOCS');
+  const kafkaBroker = configService.get<string>('KAFKA_BROKER');
   const port = configService.get<number>('PORT');
+
+  // Kafka
+  const kafka = await app.connectMicroservice({
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        brokers: [kafkaBroker],
+      },
+      consumer: {
+        groupId: 'rso-ms-vozila-vozila',
+      },
+    }
+  });
 
   // Middlewares
   app.use(compression());
@@ -49,6 +64,7 @@ async function bootstrap() {
     SwaggerModule.setup(docPath, app, document);
   }
 
+  await app.startAllMicroservices();
   await app.listen(port);
 }
 bootstrap();

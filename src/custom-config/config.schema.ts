@@ -4,7 +4,7 @@ export const ConfigSchema: Joi.ObjectSchema = Joi.object().keys({
 	DOCS: Joi.boolean().default(true),
 	DOC_PATH: Joi.string().default('openapi'),
   NODE_ENV: Joi.string().valid('development', 'test', 'production').default('development'),
-	PORT: Joi.number().default(process.env.PORT || 3001),
+	PORT: Joi.number().default(process.env.PORT || 3002),
 
 	CONFIG: Joi.string(),
 	IGNORE_CONFIG: Joi.boolean(),
@@ -38,4 +38,10 @@ export const ConfigSchema: Joi.ObjectSchema = Joi.object().keys({
 	CONSUL_HOST: Joi.string().default('localhost'),
 	CONSUL_TOKEN: Joi.string().default(''),
 	CONSUL_CRON: Joi.string().default('*/15 * * * *'),
+
+	/**
+	 * Kafka
+	 * @see https://docs.nestjs.com/microservices/kafka
+	 */
+	KAFKA_BROKER: Joi.string().default('localhost:9092'),
 });

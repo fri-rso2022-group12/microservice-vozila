@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, NotFoundException, Post, Patch, Param, ParseIntPipe } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiUnauthorizedResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Logger, NotFoundException, Post, Patch, Param, ParseIntPipe } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse, ApiOkResponse, ApiOperation, ApiUnauthorizedResponse, ApiTags } from '@nestjs/swagger';
 
 import { CreateVoziloDto, CreateVoziloSchema } from './dto/create-vozilo.dto';
 import { JoiValidationPipe } from '../common/pipes/joi-validation.pipe'
@@ -13,6 +14,8 @@ import { VoziloService } from './vozilo.service';
 @ApiUnauthorizedResponse({ description: 'Dostop dovoljen zgolj prijavljenim osebam' })
 @Controller('vozilo')
 export class VoziloController {
+  private readonly logger: Logger = new Logger(VoziloController.name);
+
   constructor(
     private readonly voziloService: VoziloService,
   ) {}
@@ -71,5 +74,12 @@ export class VoziloController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<void> {
     await this.voziloService.delete(id);
+  }
+
+
+  @EventPattern('model-vozila.deleted')
+  async voziloDeleteEvent(data) {
+    this.logger.verbose(`Received event model-vozila.deleted (id: ${data.id})`);
+    await this.voziloService.deleteByModelId(data.id)
   }
 }

@@ -36,4 +36,8 @@ export class VoziloService {
   async delete(id: number): Promise<void> {
     await this.voziloRepository.delete(id);
   }
+
+  async deleteByModelId(modelId: number): Promise<void> {
+    await this.voziloRepository.delete({ modelId: modelId });
+  }
 }
