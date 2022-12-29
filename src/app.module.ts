@@ -2,7 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { makeCounterProvider, PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { ConsulModule } from 'nestjs-consul';
 
 import { AppController } from './app.controller';
@@ -14,6 +14,7 @@ import { HealthModule } from './health/health.module';
 import { HttpConfigService } from './custom-config/http-config.service';
 import { HttpLoggingInterceptor } from './http-logging.interceptor';
 import { MaintenanceMiddleware } from './maintenance.middleware';
+import { RequestCounterInterceptor } from './request-counter.interceptor';
 import { VoziloModule } from './vozilo/vozilo.module';
 
 @Module({
@@ -40,6 +41,14 @@ import { VoziloModule } from './vozilo/vozilo.module';
   ],
   controllers: [AppController],
   providers: [
+    makeCounterProvider({
+      name: 'request_served',
+      help: 'request_served_help',
+    }),
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: RequestCounterInterceptor,
+    },
     {
       provide: APP_INTERCEPTOR,
       useClass: HttpLoggingInterceptor,
