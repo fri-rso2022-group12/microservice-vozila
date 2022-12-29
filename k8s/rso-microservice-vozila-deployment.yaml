@@ -13,7 +13,7 @@ spec:
         app: rso-microservice-vozila
     spec:
       containers:
-        - image: slocomptech/rso-microservice-vozila:1.0.2
+        - image: slocomptech/rso-microservice-vozila:1.0.4
           name: rso-microservice-vozila
           env:
             - name: DOCS
@@ -22,6 +22,25 @@ spec:
               value: production
             - name: PORT
               value: '3000'
+            - name: LOG_REQUESTS
+              value: 'true'
+            - name: HTTP_TIMEOUT
+              value: '5000'
+            - name: CONSUL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: rso-secrets
+                  key: CONSUL_HOST
+            - name: KAFKA_BROKER
+              valueFrom:
+                secretKeyRef:
+                  name: rso-secrets
+                  key: KAFKA_BROKER
+            - name: TIPVOZILAPI_URL
+              valueFrom:
+                secretKeyRef:
+                  name: rso-secrets
+                  key: TIPVOZILAPI_URL
             - name: TYPEORM_HOST
               valueFrom:
                 secretKeyRef:
