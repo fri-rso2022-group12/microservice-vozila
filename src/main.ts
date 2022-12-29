@@ -27,8 +27,13 @@ async function bootstrap() {
   // Get configuration
   const docPath = configService.get<string>('DOC_PATH');
   const enableDocs = configService.get<boolean>('DOCS');
+  const globalPrefix = configService.get<string>('GLOBAL_PREFIX');
   const kafkaBroker = configService.get<string>('KAFKA_BROKER');
   const port = configService.get<number>('PORT');
+
+  // REST global prefix
+  if (globalPrefix)
+    app.setGlobalPrefix(globalPrefix);
 
   // Kafka
   const kafka = await app.connectMicroservice({
