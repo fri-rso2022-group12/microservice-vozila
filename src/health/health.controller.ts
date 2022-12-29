@@ -23,7 +23,7 @@ export class HealthController {
   @ApiOperation({ description: 'Is service alive' })
   @ApiOkResponse()
   async live() {
-    if (this.isHealthy)
+    if (!this.isHealthy)
       throw new ServiceUnavailableException();
     return { status: 'ok' };
   }
